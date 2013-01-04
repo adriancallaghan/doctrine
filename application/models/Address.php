@@ -1,12 +1,12 @@
 <?php
+
 /**
  * @Entity
- * @Table(name="users")
+ * @Table(name="address")
+ * @author ade
  */
-class Default_Model_User
+class Default_Model_Address
 {
-    
-    
     /**
      *
      * @var integer $id
@@ -15,27 +15,29 @@ class Default_Model_User
      * @GeneratedValue(strategy="IDENTITY")
      */
     private $id;
- 
     
+    
+
+
     /**
-     * @Column(type="string",length=60,nullable=true, unique=true)
-     * @var string
+     *
+     * @Column(type="string")
      */
-    private $email;
+    private $address_details;
+
     
-    
-    
-    /** @Column(type="string") */
-    private $name;
- 
- 
-    /**
-     * @OneToMany(targetEntity="Default_Model_Address",mappedBy="Default_Model_User", cascade={"persist","remove"})
+     /**
+     *
+     * @var User
+     * @ManyToOne(targetEntity="Default_Model_User")
+     * @JoinColumns({
+     *  @JoinColumn(name="user_id", referencedColumnName="id")
+     * })
      */
-    private $address;
+    private $user;
     
     
-    
+
     public function __get($property)
     {
         return $this->$property;
@@ -45,5 +47,4 @@ class Default_Model_User
     {
         $this->$property = $value;
     }
-
 }
