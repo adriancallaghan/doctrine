@@ -13,6 +13,48 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
+        $u = new Default_Model_User;
+        $u->firstname = "John";
+        $u->lastname = "Smith";
+        
+        $purchase1 = new Default_Model_Purchase();
+        $purchase1->amount = 12.99;
+        $purchase1->storeName = "3A";
+
+        $purchase2 = new Default_Model_Purchase();
+        $purchase2->amount = 2.99;
+        $purchase2->storeName = "3B";
+       
+
+        $u->purchases = array($purchase1, $purchase2);
+        $this->_em->persist($u);
+        $this->_em->flush();
+
+
+        $out ='';
+        $out.= $u->id.'<br />';
+        $out.= $u->firstname.'<br />';
+        $out.= $u->lastname.'<br />';
+        $out.= $u->purchases[0]->id.'<br />';
+        $out.= $u->purchases[1]->id.'<br />';
+        $out.='<hr/>';
+        
+  
+        $users = $this->_em->createQuery('select u from Default_Model_User u')->execute();;
+        $testEntity = $users[4];
+        $out.= $testEntity->id.'<br />';
+        $out.= $testEntity->firstname.'<br />';
+        $out.= $testEntity->lastname.'<br />';
+        $out.= $testEntity->purchases[0]->id.'<br />';
+        $out.= $testEntity->purchases[1]->id.'<br />';
+
+        $this->view->out = $out;
+
+    }
+    
+    public function indexOldAction()
+    {
+        // action body
         $testEntity = new Default_Model_User;
         $testEntity->name = 'Dude';
         $testEntity->email = uniqid().'@email.co.uk';

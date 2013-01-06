@@ -1,12 +1,13 @@
 <?php
+
 /**
- * @Entity
+ * 
  * @Table(name="users")
+ * @Entity
+ * @author Ade
  */
 class Default_Model_User
 {
-    
-    
     /**
      *
      * @var integer $id
@@ -15,35 +16,38 @@ class Default_Model_User
      * @GeneratedValue(strategy="IDENTITY")
      */
     private $id;
- 
-    
+
     /**
-     * @Column(type="string",length=60,nullable=true, unique=true)
+     * @Column(type="string",length=60,nullable=true)
      * @var string
      */
-    private $email;
+    private $firstname;
     
-    
-    
-    /** @Column(type="string") */
-    private $name;
- 
- 
     /**
-     * @OneToMany(targetEntity="Default_Model_Address",mappedBy="Default_Model_User", cascade={"persist","remove"})
+     * @Column(type="string",length=60,nullable=true)
+     * @var string
      */
-    private $address;
-    
-    
+    private $lastname;
+
+
+    /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Default_Model_Purchase",mappedBy="user", cascade={"persist","remove"})
+     */
+    private $purchases;
+
     
     public function __get($property)
     {
         return $this->$property;
     }
-
+    
     public function __set($property,$value)
     {
         $this->$property = $value;
     }
 
 }
+
