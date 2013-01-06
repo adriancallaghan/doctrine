@@ -15,9 +15,4 @@ class ExportException extends ORMException
     {
         return new self("The mapping driver '$type' does not exist");
     }
-
-    public static function attemptOverwriteExistingFile($file)
-    {
-        return new self("Attempting to overwrite an existing file '".$file."'.");
-    }
 }
