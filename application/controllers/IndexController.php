@@ -12,93 +12,65 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
-        $u = new Default_Model_User;
-        $u->firstname = "John";
-        $u->lastname = "Smith";
+        $testId = uniqid();
         
-        $purchase1 = new Default_Model_Purchase();
-        $purchase1->amount = 12.99;
-        $purchase1->storeName = "3A";
-
-        $purchase2 = new Default_Model_Purchase();
-        $purchase2->amount = 2.99;
-        $purchase2->storeName = "3B";
-       
-
-        $u->purchases = array($purchase1, $purchase2);
-        $this->_em->persist($u);
+        // action body
+        $article = new Default_Model_Article();
+        $article->heading = "Heading test: $testId";
+        $article->content = "Content test: $testId";
+        $this->_em->persist($article);
+        
+        
+        $tag1 = new Default_Model_Tag();
+        $tag1->tagName = "Tag1 test: $testId";
+        $this->_em->persist($tag1);
+   
+        $tag2 = new Default_Model_Tag();
+        $tag2->tagName = "Tag2 test: $testId";
+        $this->_em->persist($tag2);
+        
+        
+        $article->tags = array($tag1, $tag2);
+        $this->_em->persist($article);
+        
+        
         $this->_em->flush();
 
+        
+        ///// test 
 
         $out ='';
-        $out.= $u->id.'<br />';
-        $out.= $u->firstname.'<br />';
-        $out.= $u->lastname.'<br />';
-        $out.= $u->purchases[0]->id.'<br />';
-        $out.= $u->purchases[1]->id.'<br />';
+        $out.= get_class($article).'<br />';
+        $out.= $article->id.'<br />';
+        $out.= $article->heading.'<br />';
+        $out.= $article->content.'<br />';
+        $out.= $article->tags[0]->id.'<br />';
+        $out.= $article->tags[0]->tagName.'<br />';
+        $out.= "AI: ".$article->tags[0]->article.'<br />';
+        $out.= $article->tags[1]->id.'<br />';
+        $out.= $article->tags[1]->tagName.'<br />';
+        $out.= "AI: ".$article->tags[1]->article.'<br />';
         $out.='<hr/>';
         
   
-        $users = $this->_em->createQuery('select u from Default_Model_User u')->execute();;
-        $testEntity = $users[4];
+        $users = $this->_em->createQuery('select u from Default_Model_Article u')->execute();
+        $testEntity = $users[1];
+        $out.= get_class($testEntity).'<br />';
         $out.= $testEntity->id.'<br />';
-        $out.= $testEntity->firstname.'<br />';
-        $out.= $testEntity->lastname.'<br />';
-        $out.= $testEntity->purchases[0]->id.'<br />';
-        $out.= $testEntity->purchases[1]->id.'<br />';
+        $out.= $testEntity->heading.'<br />';
+        $out.= $testEntity->content.'<br />';
+        $out.= $testEntity->tags[0]->id.'<br />';
+        $out.= $testEntity->tags[0]->tagName.'<br />';
+        $out.= "AI: ".$testEntity->tags[0]->article.'<br />';
+        $out.= $testEntity->tags[1]->id.'<br />';
+        $out.= $testEntity->tags[1]->tagName.'<br />';
+        $out.= "AI: ".$testEntity->tags[1]->article.'<br />';
 
         $this->view->out = $out;
 
     }
     
-    public function indexOldAction()
-    {
-        // action body
-        $testEntity = new Default_Model_User;
-        $testEntity->name = 'Dude';
-        $testEntity->email = uniqid().'@email.co.uk';
-        //$testEntity->setAddress('TEST');
-        //$this->_em->persist($testEntity);
-        //$this->_em->flush();
-        
-        
-        // retrieve
-        //$users = $this->_em->createQuery('select u from Default_Model_User u')->execute();
-        //$last = end($users);
-        //print_r($last);
-
-        
-        $address1 = new Default_Model_Address();
-        $address1->address_details = "3A";
-
-        $address2 = new Default_Model_Address();
-        $address2->address_details = "4A";
-        
-        $testEntity->address = array($address1, $address2);
-        
-        
-        $this->_em->persist($testEntity);
-        $this->_em->flush();
-        
-        $out ='';
-        $out.= $testEntity->id.'<br />';
-        $out.= $testEntity->name.'<br />';
-        $out.= $testEntity->email.'<br />';
-        $out.= print_r($testEntity->address->toArray(),true);
-        $out.='<hr/>';
-        
-  
-        $users = $this->_em->createQuery('select u from Default_Model_User u')->execute();
-        $testEntity = $users[10];
-        $out.= $testEntity->id.'<br />';
-        $out.= $testEntity->name.'<br />';
-        $out.= $testEntity->email.'<br />';
-        //$out.= $testEntity->address ? print_r($testEntity->address->toArray(),true) : 'Empty';
-
-        $this->view->out = $out;
-
-    }
+    
 
 
 }

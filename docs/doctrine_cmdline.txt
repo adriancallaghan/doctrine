@@ -1,0 +1,7 @@
+php doctrine.php orm:schema-tool:create --dump-sql
+php doctrine.php orm:schema-tool:create
+
+php doctrine.php orm:schema-tool:update --dump-sql
+php doctrine.php orm:schema-tool:update --force
+
+
